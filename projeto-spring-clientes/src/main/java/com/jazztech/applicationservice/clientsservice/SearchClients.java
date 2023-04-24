@@ -1,6 +1,8 @@
 package com.jazztech.applicationservice.clientsservice;
 
 import com.jazztech.applicationservice.domain.entity.Client;
+import com.jazztech.exception.handler.ClientAlreadyExistsException;
+import com.jazztech.exception.handler.ClientNotFoundException;
 import com.jazztech.infrastructure.repository.ClientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -27,16 +29,16 @@ public class SearchClients {
         return clients;
     }
 
-    public Client getClientPorId(Long id) {
+    public Client getClientPorId(Long id) throws ClientNotFoundException {
         return clientsRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatusCode.valueOf(404), "Client not found"));
+                        new ClientNotFoundException("Client not found"));
     }
 
-    public Client getClientPorCpf(String cpf) {
+    public Client getClientPorCpf(String cpf) throws ClientAlreadyExistsException {
         if (clientsRepository.existsByCpf(cpf)) {
             return clientsRepository.findByCpf(cpf);
         }
-        throw new ResponseStatusException(HttpStatusCode.valueOf(404), "Client not found");
+        throw new ClientAlreadyExistsException("Client not found");
     }
 }
