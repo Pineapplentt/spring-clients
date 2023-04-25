@@ -19,7 +19,7 @@ public class Client {
 
     @NotBlank(message = "O cpf não pode ser nulo nem vazio")
     @Length(min = 11, max = 11, message = "O cpf não pode ter menos, nem mais de 11 caracteres")
-    // @CPF
+//    @CPF
     private String cpf;
 
     @PastOrPresent(message = "A data deve ser passada ou presente.")
